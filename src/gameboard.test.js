@@ -83,3 +83,39 @@ test('ignores repeated attacks on the same coordinate', () => {
 
   expect(gameboard.missedAttacks).toEqual([[0, 0]]);
 });
+
+test('does not place a ship outside the board', () => {
+  const gameboard = new Gameboard();
+
+  const placed = gameboard.placeShip(3, [8, 0]);
+
+  expect(placed).toBe(false);
+  expect(gameboard.ships).toHaveLength(0);
+});
+
+test('does not place a ship on top of another ship', () => {
+  const gameboard = new Gameboard();
+
+  gameboard.placeShip(3, [2, 4]);
+
+  const placed = gameboard.placeShip(3, [3, 3], 'vertical');
+
+  expect(placed).toBe(false);
+  expect(gameboard.ships).toHaveLength(1);
+});
+
+test('places an entire fleet randomly without overlaps', () => {
+  const gameboard = new Gameboard();
+  const randomMock = jest.spyOn(Math, 'random').mockReturnValue(0);
+
+  gameboard.placeFleetRandomly([5, 4, 3, 3, 2]);
+
+  const occupiedCells = gameboard.board
+    .flat()
+    .filter((cell) => cell !== null);
+
+  expect(gameboard.ships).toHaveLength(5);
+  expect(occupiedCells).toHaveLength(17);
+
+  randomMock.mockRestore();
+});

@@ -2,17 +2,17 @@ import './styles.css';
 import Player from './player.js';
 import { renderBoard } from './dom.js';
 
-const human = new Player('human');
+const fleet = [5, 4, 3, 3, 2];
+
+let human = new Player('human');
 const computer = new Player('computer');
 
-human.gameboard.placeShip(3, [1, 2]);
-human.gameboard.placeShip(2, [6, 5], 'vertical');
-
-computer.gameboard.placeShip(3, [4, 3]);
-computer.gameboard.placeShip(2, [8, 6], 'vertical');
+human.gameboard.placeFleetRandomly(fleet);
+computer.gameboard.placeFleetRandomly(fleet);
 
 const game = document.querySelector('#game');
 const status = document.querySelector('#status');
+const randomizeButton = document.querySelector('#randomize');
 
 let gameOver = false;
 
@@ -34,23 +34,32 @@ function renderGame() {
   });
 
   if (gameOver) {
-  computerBoard.querySelectorAll('.cell').forEach((cell) => {
-    cell.disabled = true;
-  });
-}
+    computerBoard.querySelectorAll('.cell').forEach((cell) => {
+      cell.disabled = true;
+    });
+  }
 
   game.replaceChildren(humanBoard, computerBoard);
 }
 
+randomizeButton.addEventListener('click', () => {
+  human = new Player('human');
+  human.gameboard.placeFleetRandomly(fleet);
+
+  renderGame();
+});
+
 game.addEventListener('click', (event) => {
   const cell = event.target.closest('.cell');
 
-  if (!cell || cell.disabled) {
+  if (!cell || cell.disabled || gameOver) {
     return;
   }
 
   const x = Number(cell.dataset.x);
   const y = Number(cell.dataset.y);
+
+  randomizeButton.disabled = true;
 
   computer.gameboard.receiveAttack([x, y]);
 
