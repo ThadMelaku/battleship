@@ -12,6 +12,9 @@ computer.gameboard.placeShip(3, [4, 3]);
 computer.gameboard.placeShip(2, [8, 6], 'vertical');
 
 const game = document.querySelector('#game');
+const status = document.querySelector('#status');
+
+let gameOver = false;
 
 function renderGame() {
   const humanBoard = renderBoard(
@@ -30,6 +33,12 @@ function renderGame() {
     cell.disabled = true;
   });
 
+  if (gameOver) {
+  computerBoard.querySelectorAll('.cell').forEach((cell) => {
+    cell.disabled = true;
+  });
+}
+
   game.replaceChildren(humanBoard, computerBoard);
 }
 
@@ -44,6 +53,22 @@ game.addEventListener('click', (event) => {
   const y = Number(cell.dataset.y);
 
   computer.gameboard.receiveAttack([x, y]);
+
+  if (computer.gameboard.allShipsSunk()) {
+    gameOver = true;
+    status.textContent = 'You win!';
+    renderGame();
+    return;
+  }
+
+  computer.randomAttack(human.gameboard);
+
+  if (human.gameboard.allShipsSunk()) {
+    gameOver = true;
+    status.textContent = 'Computer wins!';
+  } else {
+    status.textContent = 'Your turn';
+  }
 
   renderGame();
 });
