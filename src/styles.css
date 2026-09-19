@@ -1,0 +1,46 @@
+body {
+  font-family: sans-serif;
+  text-align: center;
+}
+
+#game {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 40px;
+}
+
+.board {
+  display: grid;
+  grid-template-columns: repeat(10, 28px);
+  gap: 2px;
+}
+
+.cell {
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: 1px solid #999;
+  background: #eef4fa;
+}
+
+.cell.ship {
+  background: #555;
+}
+
+.cell.hit {
+  background: #e76f51;
+}
+
+.cell.miss {
+  background: #cbd5e1;
+}
+
+.cell:disabled {
+  color: #222;
+  opacity: 1;
+}
+
+.cell:not(:disabled) {
+  cursor: pointer;
+}
