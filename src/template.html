@@ -2,17 +2,31 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
   <title>Battleship</title>
 </head>
-<body>
-  <h1>Battleship</h1>
-  <p id="status">Your turn</p>
 
-  <div>
-    <button id="randomize" type="button">Randomize ships</button>
-    <button id="new-game" type="button">New game</button>
-  </div>
+<body>
+  <header class="game-header">
+    <p class="eyebrow">Naval strategy game</p>
+    <h1>Battleship</h1>
+    <p id="status" class="status" aria-live="polite">
+      Your turn
+    </p>
+
+    <div class="controls">
+      <button id="randomize" type="button">
+        Randomize ships
+      </button>
+
+      <button id="new-game" class="secondary" type="button">
+        New game
+      </button>
+    </div>
+  </header>
 
   <main id="game"></main>
 </body>

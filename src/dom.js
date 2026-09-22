@@ -1,11 +1,14 @@
 export function renderBoard(gameboard, label, showShips) {
   const section = document.createElement('section');
+  section.classList.add('board-panel');
 
   const heading = document.createElement('h2');
   heading.textContent = label;
 
   const grid = document.createElement('div');
   grid.classList.add('board');
+
+  
 
   for (let y = 0; y < 10; y += 1) {
     for (let x = 0; x < 10; x += 1) {
