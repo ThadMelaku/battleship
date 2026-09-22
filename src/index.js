@@ -4,17 +4,14 @@ import { renderBoard } from './dom.js';
 
 const fleet = [5, 4, 3, 3, 2];
 
-let human = new Player('human');
-const computer = new Player('computer');
-
-human.gameboard.placeFleetRandomly(fleet);
-computer.gameboard.placeFleetRandomly(fleet);
-
 const game = document.querySelector('#game');
 const status = document.querySelector('#status');
 const randomizeButton = document.querySelector('#randomize');
+const newGameButton = document.querySelector('#new-game');
 
-let gameOver = false;
+let human;
+let computer;
+let gameOver;
 
 function renderGame() {
   const humanBoard = renderBoard(
@@ -42,12 +39,28 @@ function renderGame() {
   game.replaceChildren(humanBoard, computerBoard);
 }
 
+function startNewGame() {
+  human = new Player('human');
+  computer = new Player('computer');
+
+  human.gameboard.placeFleetRandomly(fleet);
+  computer.gameboard.placeFleetRandomly(fleet);
+
+  gameOver = false;
+  status.textContent = 'Your turn';
+  randomizeButton.disabled = false;
+
+  renderGame();
+}
+
 randomizeButton.addEventListener('click', () => {
   human = new Player('human');
   human.gameboard.placeFleetRandomly(fleet);
 
   renderGame();
 });
+
+newGameButton.addEventListener('click', startNewGame);
 
 game.addEventListener('click', (event) => {
   const cell = event.target.closest('.cell');
@@ -82,4 +95,4 @@ game.addEventListener('click', (event) => {
   renderGame();
 });
 
-renderGame();
+startNewGame();
